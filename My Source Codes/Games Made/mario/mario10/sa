@@ -1,0 +1,44 @@
+-- first, fill map with empty tiles
+    for y = 1, self.mapHeight do
+        for x = 1, self.mapWidth do
+            
+            -- support for multiple sheets per tile; storing tiles as tables 
+            self:setTile(x, y, TILE_EMPTY)
+            if x == self.mapWidth - 7 then
+                local tileLevel
+                
+                --make pyramid
+                for i = 1, 5 do
+                    tileLevel = self.mapHeight / 2 - i
+                    self:setTile(x, tileLevel, TILE_BRICK)
+                    for y = self.mapHeight / 2 - i, self.mapHeight do
+                        self:setTile(x, y, TILE_BRICK)
+                    end                    
+                    x = x + 1
+                end
+                --draw normal tile
+            elseif x == self.mapWidth - 2 then
+                tileLevel = self.mapHeight / 2
+                for y = self.mapHeight / 2, self.mapHeight do
+                    self:setTile(x, y, TILE_BRICK)
+                end                    
+                x = x + 1
+                --draw flag post
+            elseif x == self.mapWidth - 1 then
+                tileLevel = self.mapHeight / 2 - 3
+                self:setTile(x, tileLevel, POST_TOP)
+                self:setTile(x, tileLevel + 1, POST_MIDDLE)
+                self:setTile(x, tileLevel + 2, POST_BOTTOM)
+                for y = self.mapHeight / 2, self.mapHeight do
+                    self:setTile(x, y, TILE_BRICK)
+                end
+                --draw normal tiles
+            else
+                tileLevel = self.mapHeight / 2
+                for y = self.mapHeight / 2, self.mapHeight do
+                    self:setTile(x, y, TILE_BRICK)
+                end                    
+                x = x + 1
+            end
+        end
+    end
